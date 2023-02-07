@@ -28,13 +28,13 @@ public enum PartyPrivacy {
      */
     FEATURED("Featured", NamedTextColor.DARK_PURPLE);
 
-    /*
+    /**
      * The display name of this privacy level.
      */
     @NotNull
     private final String name;
 
-    /*
+    /**
      * The display color of this privacy level.
      */
     @NotNull
