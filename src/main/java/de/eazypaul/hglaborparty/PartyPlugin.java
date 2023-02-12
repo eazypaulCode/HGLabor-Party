@@ -59,8 +59,6 @@ public class PartyPlugin {
         return partyManager;
     }
 
-    @Deprecated
-    // TODO: Merge into Localization
     public Component getPrefix() {
         return Component.text("[").color(NamedTextColor.DARK_GRAY)
                 .append(Component.text("Party").color(NamedTextColor.AQUA)

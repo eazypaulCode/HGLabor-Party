@@ -173,4 +173,8 @@ public class Party {
     protected void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
     }
+
+    public PartyPlayer getMemberByUUID(UUID uuid) {
+        return members.stream().filter(member -> member.getUuid().equals(uuid)).findFirst().orElse(null);
+    }
 }

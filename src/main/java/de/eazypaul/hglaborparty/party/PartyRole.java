@@ -1,6 +1,8 @@
 package de.eazypaul.hglaborparty.party;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class that represents the different roles a user can have in a party
@@ -62,5 +64,14 @@ public enum PartyRole {
      */
     public NamedTextColor getColor() {
         return color;
+    }
+
+    /**
+     * Returns a text component representing this party role.
+     *
+     * @return the text component
+     */
+    public @NotNull Component getComponent() {
+        return Component.text(name).color(color);
     }
 }
