@@ -3,6 +3,8 @@ package de.eazypaul.hglaborparty.command;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import de.eazypaul.hglaborparty.PartyPlugin;
+import de.eazypaul.hglaborparty.party.Party;
+import de.eazypaul.hglaborparty.party.PartyPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -43,7 +45,7 @@ public class PartyCommand implements SimpleCommand {
                 if (args.length != 2) return;
                 Player target = plugin.getProxyServer().getPlayer(args[1]).orElse(null);
                 if (target == null) {
-                    player.sendMessage(plugin.getPrefix().append(Component.text("Dieser Spieler ist nicht online!").color(NamedTextColor.GRAY)));
+                    player.sendMessage(plugin.getPrefix().append(Component.text("Dieser Spieler ist nicht online!").color(NamedTextColor.RED)));
                     break;
                 }
                 plugin.getPartyManager().invitePlayer(player, target);
@@ -53,11 +55,33 @@ public class PartyCommand implements SimpleCommand {
                 if (args.length != 2) return;
                 Player target = plugin.getProxyServer().getPlayer(args[1]).orElse(null);
                 if (target == null) {
-                    player.sendMessage(plugin.getPrefix().append(Component.text("Diese Party existiert nicht!").color(NamedTextColor.GRAY)));
+                    player.sendMessage(plugin.getPrefix().append(Component.text("Diese Party existiert nicht!").color(NamedTextColor.RED)));
                     break;
                 }
                 plugin.getPartyManager().joinParty(player, target);
                 break;
+            }
+            case "list": {
+                Party party = plugin.getPartyManager().getPlayersParty(player);
+                if (party == null) {
+                    player.sendMessage(plugin.getPrefix().append(Component.text("Du bist in keiner Party!").color(NamedTextColor.RED)));
+                    return;
+                }
+                if (party.getMembers().size() == 1) {
+                    player.sendMessage(plugin.getPrefix().append(Component.text("Du bist zurzeit alleine in dieser Party.").color(NamedTextColor.GRAY)));
+                    return;
+                }
+                Component allPlayer = Component.empty();
+                boolean first = true;
+                for (PartyPlayer member : party.getMembers()) {
+                    if (first) {
+                        allPlayer = allPlayer.append(Component.text(member.getName()).color(NamedTextColor.AQUA));
+                        first = false;
+                        continue;
+                    }
+                    allPlayer = allPlayer.append(Component.text(", ").color(NamedTextColor.DARK_GRAY).append(Component.text(member.getName()).color(NamedTextColor.AQUA)));
+                }
+                player.sendMessage(plugin.getPrefix().append(Component.text("Folgende Spieler sind in dieser Party: ").color(NamedTextColor.GRAY).append(allPlayer)));
             }
         }
     }
