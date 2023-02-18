@@ -1,6 +1,6 @@
 plugins {
     java
-    id("xyz.jpenilla.run-velocity") version "2.0.0"
+    id("xyz.jpenilla.run-velocity") version "2.0.1"
 }
 
 group = "de.eazypaul"
